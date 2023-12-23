@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Loader from "./components/Loader";
 
 const users = [
   { ctitle: "Anoop sharma", img: "Anoop.png" },
@@ -56,23 +57,25 @@ function App() {
   }, []);
 
   return (
-    loader ?
-      <div>Loading</div>
-      :
-      <UserContext.Provider
-        value={{
-          data, users, status, priority,
-          setGrouping, grouping,
-          setOrdering, ordering
-        }}
-      >
-        <div className={themeDark ? 'dark' : ''} >
-          <Navbar setThemeDark={setThemeDark} themeDark={themeDark} />
-          <main>
-            <Home />
-          </main>
-        </div>
-      </UserContext.Provider>
+    <UserContext.Provider
+      value={{
+        data, users, status, priority,
+        setGrouping, grouping,
+        setOrdering, ordering
+      }}
+    >
+      <div className={themeDark ? 'dark' : ''} >
+        <Navbar setThemeDark={setThemeDark} themeDark={themeDark} />
+        <main>
+          {
+            loader ?
+              <Loader />
+              :
+              <Home />
+          }
+        </main>
+      </div>
+    </UserContext.Provider>
   );
 }
 
