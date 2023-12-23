@@ -4,6 +4,7 @@ import { UserContext } from '../App';
 
 const Home = () => {
     const [filterData, setFilterData] = useState([]);
+    const [selectedArray, setSelectedArray] = useState([]);
     let storedGrouping = localStorage.getItem('grouping');
     const { grouping, ordering, data, users, status, priority } = useContext(UserContext);
 
@@ -26,23 +27,22 @@ const Home = () => {
             setFilterData(groupBy(data.tickets, 'userId'));
         else
             setFilterData(groupBy(data.tickets, storedGrouping));
-    }, [grouping, ordering]);
 
-    // Define the array based on the storedGrouping value
-    let selectedArray = [];
-    switch (storedGrouping) {
-        case 'user':
-            selectedArray = users;
-            break;
-        case 'status':
-            selectedArray = status;
-            break;
-        case 'priority':
-            selectedArray = priority;
-            break;
-        default:
-            selectedArray = [];
-    }
+        // Define the array based on the storedGrouping value
+        switch (storedGrouping) {
+            case 'user':
+                setSelectedArray(users);
+                break;
+            case 'status':
+                setSelectedArray(status);
+                break;
+            case 'priority':
+                setSelectedArray(priority);
+                break;
+            default:
+                setSelectedArray([]);
+        }
+    }, [grouping, ordering]);
 
     return (
         <section className='component-wrapper'>
@@ -104,3 +104,4 @@ const Home = () => {
 };
 
 export default Home;
+
